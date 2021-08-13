@@ -17,10 +17,11 @@ export default function Home() {
 			body: JSON.stringify({
             address: walletAddress
 			})
-		}).then((res) => res.json())
-	
+		}).then((res) => res.json(),console.log(res.body.data))
+		
 }
 
+  
 
   return (
     <div className={styles.container}>
@@ -28,6 +29,6 @@ export default function Home() {
       <input type="text" value={walletAddress} onChange={(e) => setWalletAddress(e.target.value)} placeholder="Enter a BSC wallet address"/>
       <button onClick={submitWalletAddress}>Submit</button>
 			</div>
-		</div>
+	</div>
   )
 }
