@@ -1,4 +1,4 @@
-import styles from '../styles/Home.module.css'
+//import styles from '../styles/Home.module.css'
 import React, { useState } from "react";
 
 
@@ -9,7 +9,7 @@ export default function Home() {
 
   async function submitWalletAddress() {
 
-		const res = await fetch('/api/get-token-holdings-bsc', {
+		const res = await fetch('http://localhost:3000/api/get-token-holdings-bsc', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -17,15 +17,14 @@ export default function Home() {
 			body: JSON.stringify({
             address: walletAddress
 			})
-		}).then((res) => res.json(),console.log(res.body.data))
-		
+		}).then((res) => res.json())
+		console.log(res.data)
 }
 
-  
 
   return (
-    <div className={styles.container}>
-			<div className={styles.inputArea}>
+    <div>
+			<div>
       <input type="text" value={walletAddress} onChange={(e) => setWalletAddress(e.target.value)} placeholder="Enter a BSC wallet address"/>
       <button onClick={submitWalletAddress}>Submit</button>
 			</div>

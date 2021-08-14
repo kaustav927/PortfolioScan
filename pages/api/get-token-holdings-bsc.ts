@@ -1,6 +1,6 @@
   
 const chromium = require('chrome-aws-lambda');
-
+import {NextApiRequest, NextApiResponse} from 'next'
 
 async function getBrowserInstance() {
 	const executablePath = await chromium.executablePath
@@ -32,7 +32,7 @@ async function getBrowserInstance() {
 }
 
 
-export default async (req, res)=> {
+export default async (req: NextApiRequest, res:NextApiResponse)=> {
     const address = req.body.address
     //console.log(req)
 
