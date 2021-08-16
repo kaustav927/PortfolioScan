@@ -22,7 +22,9 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "pages/index.js"
+    "pages/index.ts",
+    "pages/CoinDetailPage.jsx",
+    "pages/CoinSummaryPage.jsx"
   ],
   "exclude": [
     "node_modules"

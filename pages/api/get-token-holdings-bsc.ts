@@ -1,6 +1,18 @@
 const chromium = require("chrome-aws-lambda");
 import { NextApiRequest, NextApiResponse } from "next";
+import AWS from "aws-sdk";
+//AKIATQNITDHC5AZ7GVXP
+//LP3SuOszIGqFxRg6HzSSsdR2mB880ACswXA5pgFh
 
+//portfolio-scan
+
+const S3 = new AWS.S3({
+  signatureVersion: "v4",
+  credentials: {
+    accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
+  },
+});
 async function getBrowserInstance() {
   const executablePath = await chromium.executablePath;
   //local dev environment puppeteer
@@ -17,7 +29,7 @@ async function getBrowserInstance() {
       ignoreHTTPSErrors: true,
     });
   }
-  //For running cloud version of puppeteer for AWS 
+  //For running cloud version of puppeteer for AWS
   return chromium.puppeteer.launch({
     args: chromium.args,
     defaultViewport: {
@@ -90,9 +102,34 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         TokenQuantity: tokenQuantityValue,
       });
     }
-    res.json({
-      status: "ok",
-      data: tokenHoldingsBSC,
+
+    //push to S3
+    const fileName = "uploaded_on_" + Date.now() + `user: ${address}`;
+    const params = {
+      Bucket: "portfolio-scan",
+      Key: fileName,
+      Body: JSON.stringify(tokenHoldingsBSC),
+    };
+
+    S3.upload(params, (error, data) => {
+      console.log(error, data);
+      if (error) {
+        return res.json({
+          status: "error",
+          error: error.message || "Something went wrong uploading to s3",
+        });
+      }
+      const params = {
+        Bucket: "portfolio-scan",
+        Key: fileName,
+        Expires: 60,
+      };
+      const signedURL = S3.getSignedUrl("getObject", params);
+      res.json({
+        status: "ok",
+        data: tokenHoldingsBSC,
+        url: signedURL,
+      });
     });
   } catch (error) {
     console.log(error);
