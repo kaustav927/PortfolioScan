@@ -43,7 +43,7 @@ return (
 
 		<div>
 	
-		{JSON.stringify(responseData)}
+		{JSON.stringify(responseData[3].TokenName)}
 		</div>
 
 	</div>
