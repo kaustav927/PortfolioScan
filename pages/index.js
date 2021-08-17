@@ -7,14 +7,20 @@ import { useRouter } from "next/dist/client/router";
 import CoinDetailPage from "./CoinDetailPage";
 import CoinSummaryPage from "./CoinSummaryPage";
 import Header from "./components/Header";
-import CoinList from "./components/CoinList";
+import CoinTable from "./components/CoinTable";
 
 
 export default function Home() {
   const router = useRouter();
   const [walletAddress, setWalletAddress] = React.useState("");
-  const [responseData, setResponseData] = React.useState("");
+  const [walletData, setwalletData] = React.useState("");
   const [walletDataUrl, setWalletDataUrl] = React.useState("");
+
+
+
+
+
+
 
   async function submitWalletAddress() {
     const res = await fetch(
@@ -31,9 +37,9 @@ export default function Home() {
     )
       .then((res) => res.json())
       .then((res) => {
-        setResponseData(res.data);
+        setwalletData(res.data);
         setWalletDataUrl(res.url);
-        console.log(responseData);
+        console.log(JSON.stringify(walletData));
         console.log(walletDataUrl);
       })
       .catch((error) => {
@@ -41,26 +47,39 @@ export default function Home() {
       });
   }
 
+
+
+
+
+
+
+
+
   return (
     <div>
-      <Header />
-      <div>
-        <input
-          type="text"
-          value={walletAddress}
-          onChange={(e) => setWalletAddress(e.target.value)}
-          placeholder="Enter Web3.0 Wallet address Here"
-        />
-        <button onClick={submitWalletAddress}>Connect Wallet</button>
-		<CoinList />
-        <h4>{JSON.stringify(responseData)}</h4>
-      </div>
+    <Header />
+    <div>
+      <input
+        type="text"
+        value={walletAddress}
+        onChange={(e) => setWalletAddress(e.target.value)}
+        placeholder="Enter Web3.0 Wallet address Here"
+      />
+      <button onClick={submitWalletAddress}>Connect Wallet</button>
 
-      <button type="button" onClick={() => router.push("/CoinDetailPage")}>
-        Click me
-      </button>
+      <CoinTable walletData={walletData} title={walletAddress}/>
+
+    
+    </div>
+
+    <button type="button" onClick={() => router.push("/CoinDetailPage")}>
+      Click me
+    </button>
+   
     </div>
   );
 }
 
 //0x8cE8338516Ce6De5cFBea213e4C92513f2c0Dbde
+//  <h4>{JSON.stringify(walletData)}</h4>
+
