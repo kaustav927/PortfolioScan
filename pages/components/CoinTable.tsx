@@ -1,25 +1,20 @@
 import React, { useEffect , useState, useContext } from 'react'
 import PropTypes from 'prop-types'
-
+import Coin from './Coin'
 const CoinTable = ({title, walletData}) => {
 
 
-const renderRows = (array)=>{
+const renderTable = (array)=>{
     var CoinTableData =[]
     for (let i = 1; i < array.length-1; i++) {
-       let tokenNumber = i
+
        let tokenAddress = array[i].TokenAddress;
        let tokenName = array[i].TokenName;
        let tokenSymbol = array[i].TokenSymbol;
        let tokenQuantity = array[i].TokenQuantity;
+
       CoinTableData.push(
-        <tr>
-          <td>{tokenNumber}</td>
-          <td>{tokenAddress}</td>
-          <td>{tokenName}</td>
-          <td>{tokenSymbol}</td>
-          <td>{tokenQuantity}</td>
-        </tr>
+        <Coin tokenAddress={tokenAddress} tokenName={tokenName} tokenQuantity={tokenQuantity} tokenSymbol={tokenSymbol} />
        )
     }
     return CoinTableData;
@@ -32,13 +27,12 @@ const renderRows = (array)=>{
             <h2>{title}</h2>
         </div>
             <tr>
-                <th>Token Number</th>
                 <th>Token Address</th>
                 <th>Token Name</th>
                 <th>Token Symbol</th>
                 <th>Token Quantity</th>
             </tr>
-            {renderRows(walletData)}
+            {renderTable(walletData)}
     </div>
    );
 }

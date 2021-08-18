@@ -23,7 +23,7 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/index.ts",
-    "pages/CoinDetailPage.jsx",
+    "pages/CoinDetailPage.tsx",
     "pages/CoinSummaryPage.jsx"
   ],
   "exclude": [

@@ -69,6 +69,8 @@ export default function Home() {
 
       <CoinTable walletData={walletData} title={walletAddress}/>
 
+      
+
     
     </div>
 
